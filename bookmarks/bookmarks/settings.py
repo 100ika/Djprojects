@@ -35,15 +35,16 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 # Application definition
 
 INSTALLED_APPS = [
+    "sslserver",
     'account.apps.AccountConfig',
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.messages',
-    'social_django',  
-    
+    'django.contrib.messages',    
+    'social_django',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -127,6 +128,12 @@ STATIC_URL = 'static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
+AUTHENTICATION_BACKENDS = [    
+    'django.contrib.auth.backends.ModelBackend',    
+    'account.authentication.EmailAuthBackend',
+    'social_core.backends.facebook.FacebookOAuth2',
+]
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = 'dashboard'
@@ -134,3 +141,9 @@ LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+ALLOWED_HOSTS = ['mysite.com', 'localhost', '127.0.0.1', 'max.com']
+
+SOCIAL_AUTH_FACEBOOK_KEY = '1084140112425772' # Facebook App ID
+SOCIAL_AUTH_FACEBOOK_SECRET = 'd1d06a807cccf5c0dbc408a73a50ca70' #
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
