@@ -15,7 +15,8 @@ import os, sys
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+PROJECT_ROOT = Path(__file__).parent #Указываем расположения PROJECT_ROOT
+sys.path.append(str(PROJECT_ROOT / 'apps')) #Указываем что приложения находятся в корневой папке с settings.py
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',    
     'social_django',
     'django_extensions',
+    'images.apps.ImagesConfig',
 ]
 
 MIDDLEWARE = [
@@ -132,6 +134,7 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',    
     'account.authentication.EmailAuthBackend',
     'social_core.backends.facebook.FacebookOAuth2',
+    'social_core.backends.google.GoogleOAuth2',
 ]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -145,5 +148,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 ALLOWED_HOSTS = ['mysite.com', 'localhost', '127.0.0.1', 'max.com']
 
 SOCIAL_AUTH_FACEBOOK_KEY = '1084140112425772' # Facebook App ID
-SOCIAL_AUTH_FACEBOOK_SECRET = 'd1d06a807cccf5c0dbc408a73a50ca70' #
+SOCIAL_AUTH_FACEBOOK_SECRET = 'd1d06a807cccf5c0dbc408a73a50ca70' # Facebook
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '76443606020-i3juid4s4n3a3n1lbenhg03tasfq4vn5.apps.googleusercontent.com' # Google Consumer Key
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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' # Google Consumer Secret

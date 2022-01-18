@@ -3,7 +3,8 @@
 pip install Django
 pip install Pillow
 pip install social-auth-app-django
-pip install django-extensions Werkzeug
+pip install django-extensions 
+pip install Werkzeug
 pip install pyOpenSSL
 pip install django-sslserver
 
@@ -12,17 +13,16 @@ pip install django-sslserver
 
     3. Запустить cmd от имени Адм. 
     4. Перейти в корневую папку проекта и запустить вирутальную машину. 
-    5. mkcert "localhost" (example "mysite.com")
-    6. переименовать файлы "localhost-key".pem - "localhost".key и "localhost".pem - "localhost".crt
-            ren localhost-key.pem localhost.key
-            ren localhost.pem localhost.crt
+    5. mkcert "max.com" (example "mysite.com")
+    6. переименовать файлы "max.com".pem - "max.com".key и "max.com".pem - "max.com".crt
+            ren max.com-key.pem max.com.key
+            ren max.com.pem max.com.crt
     7. pip install django_extensions 
         добавить в INSTALLED_APPS settings.py 'django_extensions' в конце
     8. В терминале vsc (env) запустить сервер 
-        python manage.py runserver_plus "localhost:8000" --cert-file ./"localhost".crt
+        python manage.py runserver_plus "max.com:8000" --cert-file ./"max.com".crt
 
-Команда запуск локального сервера с сертификатом безопасности:
-python manage.py runserver_plus --cert-file cert.pem --key-file key.pem
+
 
 
 
