@@ -18,10 +18,10 @@ def image_create(request):
             messages.success(request, 'Image added successfully')
             # Перенаправляем пользователя на страницу сохраненного изображения.
             return redirect(new_item.get_absolute_url())
-        else:
+    else:
             # Заполняем форму данными из GET-запроса.
             form = ImageCreateForm(data=request.GET)
-        return render(request,'images/image/create.html',{'section': 'images', 'form': form})
+    return render(request,'images/image/create.html',{'section': 'images', 'form': form})
 
 
             #http://127.0.0.1:8000/images/create/?title=%20Django%20and%20Duke&url=http://upload.wikimedia.org/wikipedia/commons/8/85/Django_Reinhardt_and_Duke_Ellington_%28Gottlieb%29.jpg
