@@ -23,6 +23,14 @@ pip install django-sslserver
         python manage.py runserver_plus "max.com:8000" --cert-file ./"max.com".crt
 
 
+ngrok:
+https://ngrok.com/download
+пройти по иструкции 
+добавить в settings.py / allowed_hosts адрес без "http"
+запустить в cmd ngrok http 8000
+запустить runserver
+
+
 
 
 

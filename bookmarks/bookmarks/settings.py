@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-z(t9d!rw_!dsgv)nctdipq0!$)oxfz#pd3o5l0^82ye09v(45f
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['mysite.com', 'localhost', '127.0.0.1', 'max.com', 'baff-178-91-253-107.ngrok.io']
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
@@ -145,7 +145,7 @@ LOGOUT_URL = 'logout'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-ALLOWED_HOSTS = ['mysite.com', 'localhost', '127.0.0.1', 'max.com']
+
 
 SOCIAL_AUTH_FACEBOOK_KEY = '1084140112425772' # Facebook App ID
 SOCIAL_AUTH_FACEBOOK_SECRET = 'd1d06a807cccf5c0dbc408a73a50ca70' # Facebook
