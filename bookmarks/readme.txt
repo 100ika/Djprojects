@@ -7,6 +7,7 @@ pip install django-extensions
 pip install Werkzeug
 pip install pyOpenSSL
 pip install django-sslserver
+pip install sorl-thumbnail
 
 Установка сертификата безопасности http-https:
     https://timonweb.com/django/https-django-development-server-ssl-certificate/
@@ -25,14 +26,10 @@ pip install django-sslserver
 
 ngrok:
 https://ngrok.com/download
-пройти по иструкции 
+пройти по инструкции 
 добавить в settings.py / allowed_hosts адрес без "http"
 запустить в cmd ngrok http 8000
 запустить runserver
-
-
-
-
 
 
 pip freeze 
@@ -59,6 +56,7 @@ requests-oauthlib==1.3.0
 six==1.16.0
 social-auth-app-django==5.0.0
 social-auth-core==4.1.0
+sorl-thumbnail==12.7.0
 sqlparse==0.4.2
 tzdata==2021.5
 urllib3==1.26.8

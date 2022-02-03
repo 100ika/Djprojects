@@ -1,28 +1,90 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+from django.http import HttpResponse
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import ImageCreateForm
+from .models import Image
+from common.decorators import ajax_required
+
 
 @login_required
 def image_create(request):
     if request.method == 'POST':
-        # Форма отправлена.
+        # form is sent
         form = ImageCreateForm(data=request.POST)
         if form.is_valid():
-            # Данные формы валидны.
+            # form data is valid
             cd = form.cleaned_data
             new_item = form.save(commit=False)
-            # Добавляем пользователя к созданному объекту.
+
+            # assign current user to the item
             new_item.user = request.user
             new_item.save()
             messages.success(request, 'Image added successfully')
-            # Перенаправляем пользователя на страницу сохраненного изображения.
+
+            # redirect to new created item detail view
             return redirect(new_item.get_absolute_url())
     else:
-            # Заполняем форму данными из GET-запроса.
-            form = ImageCreateForm(data=request.GET)
-    return render(request,'images/image/create.html',{'section': 'images', 'form': form})
+        # build form with data provided by the bookmarklet via GET
+        form = ImageCreateForm(data=request.GET)
+
+    return render(request,
+                  'images/image/create.html',
+                  {'section': 'images',
+                   'form': form})
 
 
-            #http://127.0.0.1:8000/images/create/?title=%20Django%20and%20Duke&url=http://upload.wikimedia.org/wikipedia/commons/8/85/Django_Reinhardt_and_Duke_Ellington_%28Gottlieb%29.jpg
-            #http://127.0.0.1:8000/images/create/?title=%20Django%20and%20Duke&url=http://upload.wikimedia.org/wikipedia/commons/8/85/Django_Reinhardt_and_Duke_Ellington_%28Gottlieb%29.jpg
+def image_detail(request, id, slug):
+    image = get_object_or_404(Image, id=id, slug=slug)
+    return render(request,
+                  'images/image/detail.html',
+                  {'section': 'images',
+                   'image': image})
+
+
+@ajax_required
+@login_required
+@require_POST
+def image_like(request):
+    image_id = request.POST.get('id')
+    action = request.POST.get('action')
+    if image_id and action:
+        try:
+            image = Image.objects.get(id=image_id)
+            if action == 'like':
+                image.users_like.add(request.user)
+            else:
+                image.users_like.remove(request.user)
+            return JsonResponse({'status':'ok'})
+        except:
+            pass
+    return JsonResponse({'status':'ko'})
+
+
+@login_required
+def image_list(request):
+    images = Image.objects.all()
+    is_ajax = request.META.get("CONTENT_TYPE") == "application/json"
+    paginator = Paginator(images, 8)
+    page = request.GET.get('page')
+    try:
+        images = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer deliver the first page
+        images = paginator.page(1)
+    except EmptyPage:
+        
+        if is_ajax:
+            # If the request is AJAX and the page is out of range
+            # return an empty page
+            return HttpResponse('')
+        # If page is out of range deliver last page of results
+        images = paginator.page(paginator.num_pages)
+    if is_ajax:
+        return render(request, 'images/image/list_ajax.html', {'section': 'images', 'images': images})
+    return render(request,
+                  'images/image/list.html',
+                   {'section': 'images', 'images': images})

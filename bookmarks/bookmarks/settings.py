@@ -12,11 +12,16 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import os, sys
+from django.urls import reverse_lazy
+
+ABSOLUTE_URL_OVERRIDES = {
+ 'auth.user': lambda u: reverse_lazy('user_detail', args=[u.username])
+}
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 PROJECT_ROOT = Path(__file__).parent #Указываем расположения PROJECT_ROOT
-sys.path.append(str(PROJECT_ROOT / 'apps')) #Указываем что приложения находятся в корневой папке с settings.py
+sys.path.append(str(PROJECT_ROOT / 'apps')) #Указываем что приложения находятся в корневой папке с settings.py 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
@@ -27,7 +32,9 @@ SECRET_KEY = 'django-insecure-z(t9d!rw_!dsgv)nctdipq0!$)oxfz#pd3o5l0^82ye09v(45f
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['mysite.com', 'localhost', '127.0.0.1', 'max.com', 'baff-178-91-253-107.ngrok.io']
+ALLOWED_HOSTS = ['mysite.com', 'localhost', '127.0.0.1', 'max.com', '247f-2-135-52-77.ngrok.io']
+
+CSRF_TRUSTED_ORIGINS = ['https://247f-2-135-52-77.ngrok.io']
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
@@ -36,7 +43,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 # Application definition
 
 INSTALLED_APPS = [
-    "sslserver",
+    'sslserver',
     'account.apps.AccountConfig',
     'django.contrib.staticfiles',
     'django.contrib.admin',
@@ -47,6 +54,7 @@ INSTALLED_APPS = [
     'social_django',
     'django_extensions',
     'images.apps.ImagesConfig',
+    'sorl.thumbnail',
 ]
 
 MIDDLEWARE = [
@@ -134,6 +142,8 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',    
     'account.authentication.EmailAuthBackend',
     'social_core.backends.facebook.FacebookOAuth2',
+    'social_core.backends.twitter.TwitterOAuth',
+    'social_core.backends.twitter.TwitterOAuth',
     'social_core.backends.google.GoogleOAuth2',
 ]
 
@@ -153,3 +163,5 @@ SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '76443606020-i3juid4s4n3a3n1lbenhg03tasfq4vn5.apps.googleusercontent.com' # Google Consumer Key
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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' # Google Consumer Secret
+
+THUMBNAIL_DEBUG=True
